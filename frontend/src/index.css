@@ -13,7 +13,7 @@
   --win-text-secondary: #605e5c;
   --win-shadow: rgba(0, 0, 0, 0.133);
   --win-shadow-light: rgba(0, 0, 0, 0.067);
-  
+
   /* Windows 11 Dark Mode */
   --win-bg-dark: #202020;
   --win-surface-dark: #2c2c2c;
@@ -21,7 +21,7 @@
   --win-border-dark: #3c3c3c;
   --win-text-dark: #ffffff;
   --win-text-secondary-dark: #cccccc;
-  
+
   /* Taskbar specific */
   --win-taskbar-bg: rgba(44, 44, 44, 0.85);
   --win-taskbar-hover: rgba(255, 255, 255, 0.1);
@@ -32,7 +32,9 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -539,6 +541,26 @@ html, body, #root {
   flex-shrink: 0;
 }
 
+.win-explorer-details {
+  width: 300px;
+  background: #fdfdfd;
+  border-left: 1px solid #e5e5e5;
+  height: 100%;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
 .win-explorer-content {
   flex: 1;
   background: white;
@@ -815,6 +837,14 @@ html, body, #root {
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Briefcase, Code, Dribbble, FileText } from 'lucide-react';
+import { User, Briefcase, Code, Crosshair, FileText } from 'lucide-react';
 import Taskbar from './Taskbar';
 import Window from './Window';
 import StartMenu from './StartMenu';
@@ -8,7 +8,7 @@ import StartMenu from './StartMenu';
 // Apps
 import AboutApp from '../apps/AboutApp';
 import ProjectsApp from '../apps/ProjectsApp';
-import BasketballApp from '../apps/BasketballApp';
+import ShooterApp from '../apps/ShooterApp';
 import SkillsApp from '../apps/SkillsApp';
 
 interface AppConfig {
@@ -43,10 +43,10 @@ const Desktop = () => {
             content: <SkillsApp />
         },
         {
-            id: 'basketball',
-            title: 'The Basketball Story',
-            icon: <Dribbble className="text-orange-600" />,
-            content: <BasketballApp />
+            id: 'doom',
+            title: 'Doom.exe',
+            icon: <Crosshair className="text-red-600" />,
+            content: <ShooterApp />
         },
         {
             id: 'resume',
@@ -58,9 +58,9 @@ const Desktop = () => {
                         <FileText size={64} className="text-red-500 mb-6 mx-auto" />
                         <h2 className="text-2xl font-bold mb-4 text-gray-800">Resume</h2>
                         <p className="mb-6 text-gray-600">Syed_Raza_Ali_Rizvi_Resume.pdf</p>
-                        <a 
-                            href="/raza.pdf" 
-                            target="_blank" 
+                        <a
+                            href="/raza.pdf"
+                            target="_blank"
                             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                         >
                             <FileText size={20} />
@@ -90,7 +90,7 @@ const Desktop = () => {
     };
 
     return (
-        <div 
+        <div
             className="h-screen w-screen relative overflow-hidden"
             style={{
                 background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',

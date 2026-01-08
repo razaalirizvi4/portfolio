@@ -14,7 +14,8 @@ const ProjectsApp = () => {
             modified: '12/15/2024',
             description: 'AI-powered tool that converts natural language to executable shell commands',
             tech: 'Python, Shell, Ollama',
-            icon: <Code size={24} className="text-blue-600" />
+            icon: <Code size={24} className="text-blue-600" />,
+            github: 'https://github.com/razaalirizvi4/twin'
         },
         {
             id: 'cinema',
@@ -24,7 +25,8 @@ const ProjectsApp = () => {
             modified: '11/28/2024',
             description: 'Full-stack movie booking system with real-time engine and Stripe integration',
             tech: 'Java, Spring Boot',
-            icon: <Globe size={24} className="text-green-600" />
+            icon: <Globe size={24} className="text-green-600" />,
+            github: 'https://github.com/razaalirizvi4/Absolute-Cinema'
         },
         {
             id: 'rateit',
@@ -34,17 +36,19 @@ const ProjectsApp = () => {
             modified: '10/22/2024',
             description: 'Community-driven media rating platform with gamification features',
             tech: 'Node.js, React.js',
-            icon: <Database size={24} className="text-purple-600" />
+            icon: <Database size={24} className="text-purple-600" />,
+            github: 'https://github.com/razaalirizvi4/RateIt'
         },
         {
             id: 'hexaclash',
-            name: 'HexaClash Mobile Game',
+            name: 'HexaClash',
             type: 'folder',
             size: '45.2 MB',
             modified: '09/15/2024',
             description: 'Android game co-developed during MLabs incubation',
             tech: 'Unity, C#',
-            icon: <Gamepad2 size={24} className="text-orange-600" />
+            icon: <Gamepad2 size={24} className="text-orange-600" />,
+            github: 'https://github.com/razaalirizvi4/hexaClash'
         },
         {
             id: 'readme',
@@ -54,9 +58,18 @@ const ProjectsApp = () => {
             modified: '01/08/2025',
             description: 'Project portfolio overview and setup instructions',
             tech: 'Markdown',
-            icon: <FileText size={24} className="text-gray-600" />
+            icon: <FileText size={24} className="text-gray-600" />,
+            github: 'https://github.com/razaalirizvi4'
         }
     ];
+
+    const selectedProjectData = projects.find(p => p.id === selectedProject);
+
+    const handleOpenProject = (github?: string) => {
+        if (github) {
+            window.open(github, '_blank');
+        }
+    };
 
     return (
         <div className="win-explorer h-full flex flex-col">
@@ -73,17 +86,17 @@ const ProjectsApp = () => {
                         <Home size={16} />
                     </button>
                 </div>
-                
+
                 <div className="win-address-bar">
                     <span>This PC &gt; Projects</span>
                 </div>
-                
-                <input 
-                    type="text" 
+
+                <input
+                    type="text"
                     placeholder="Search Projects"
                     className="win-search-box"
                 />
-                
+
                 <button className="win-nav-button">
                     <MoreHorizontal size={16} />
                 </button>
@@ -107,7 +120,7 @@ const ProjectsApp = () => {
                             Downloads
                         </button>
                     </div>
-                    
+
                     <div className="win-sidebar-section">
                         <div className="win-sidebar-header">This PC</div>
                         <button className="win-sidebar-item">
@@ -134,10 +147,7 @@ const ProjectsApp = () => {
                                     key={project.id}
                                     className={`win-file-item ${selectedProject === project.id ? 'selected' : ''}`}
                                     onClick={() => setSelectedProject(project.id)}
-                                    onDoubleClick={() => {
-                                        // Handle opening project
-                                        console.log('Opening project:', project.name);
-                                    }}
+                                    onDoubleClick={() => handleOpenProject(project.github)}
                                 >
                                     <div className="win-file-icon">
                                         {project.icon}
@@ -159,8 +169,8 @@ const ProjectsApp = () => {
                             {projects.map((project) => (
                                 <div
                                     key={project.id}
-                                    className={`win-list-item ${selectedProject === project.id ? 'selected' : ''}`}
                                     onClick={() => setSelectedProject(project.id)}
+                                    onDoubleClick={() => handleOpenProject(project.github)}
                                 >
                                     <div className="win-list-item-name">
                                         {project.icon}
@@ -174,19 +184,85 @@ const ProjectsApp = () => {
                         </div>
                     )}
                 </div>
+
+                {/* Details Pane */}
+                <div className="win-explorer-details">
+                    {selectedProjectData ? (
+                        <div className="p-6 flex flex-col h-full">
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="win-file-icon p-4 bg-gray-50 rounded-lg">
+                                    {selectedProjectData.icon}
+                                </div>
+                                <h2 className="text-lg font-semibold leading-tight">{selectedProjectData.name}</h2>
+                            </div>
+
+                            <div className="space-y-6 flex-1 overflow-auto pr-2">
+                                <div>
+                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Description</h3>
+                                    <p className="text-sm text-gray-600 leading-relaxed">{selectedProjectData.description}</p>
+                                </div>
+
+                                <div>
+                                    <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Technologies</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {selectedProjectData.tech.split(', ').map(t => (
+                                            <span key={t} className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs border border-blue-100 italic">
+                                                {t}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-4 pt-4">
+                                    <div className="text-xs">
+                                        <span className="text-gray-400 block mb-1">Last Modified</span>
+                                        <span className="font-medium">{selectedProjectData.modified}</span>
+                                    </div>
+                                    <div className="text-xs">
+                                        <span className="text-gray-400 block mb-1">File Size</span>
+                                        <span className="font-medium">{selectedProjectData.size}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-8 space-y-3">
+                                {selectedProjectData.github && (
+                                    <button
+                                        onClick={() => handleOpenProject(selectedProjectData.github)}
+                                        className="win-button w-full justify-center py-3 shadow-md transform transition-all active:scale-95"
+                                    >
+                                        <Code size={18} />
+                                        View on GitHub
+                                    </button>
+                                )}
+                                <button
+                                    className="win-button-secondary w-full justify-center py-3 transform transition-all active:scale-95"
+                                    onClick={() => setSelectedProject(null)}
+                                >
+                                    Deselect
+                                </button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-400 p-8 text-center">
+                            <Folder size={48} className="mb-4 opacity-20" />
+                            <p className="text-sm">Select a project to view details and access the source code.</p>
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Status Bar */}
             <div className="bg-gray-100 border-t border-gray-300 px-4 py-2 text-sm text-gray-600 flex justify-between">
                 <span>{projects.length} items</span>
                 <div className="flex gap-4">
-                    <button 
+                    <button
                         onClick={() => setViewMode('grid')}
                         className={`px-2 py-1 rounded ${viewMode === 'grid' ? 'bg-blue-100 text-blue-600' : ''}`}
                     >
                         Grid
                     </button>
-                    <button 
+                    <button
                         onClick={() => setViewMode('list')}
                         className={`px-2 py-1 rounded ${viewMode === 'list' ? 'bg-blue-100 text-blue-600' : ''}`}
                     >
