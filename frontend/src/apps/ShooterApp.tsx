@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { Crosshair, Shield, Zap, Skull, Timer, Trophy, RotateCcw } from 'lucide-react';
 
 const MAP = [
