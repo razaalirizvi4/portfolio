@@ -56,7 +56,7 @@ const StartMenu: React.FC<StartMenuProps> = ({ isOpen, onClose, onAppClick, apps
                                         className="win-app-item"
                                     >
                                         <div className="win-app-icon">
-                                            {React.cloneElement(app.icon as React.ReactElement, { size: 24, color: 'white' })}
+                                            {React.cloneElement(app.icon as React.ReactElement<{size?: number; color?: string}>, { size: 24, color: 'white' })}
                                         </div>
                                         <span className="win-app-name">{app.title}</span>
                                     </button>

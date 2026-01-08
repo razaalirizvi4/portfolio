@@ -1,4 +1,3 @@
-import React from 'react';
 import { Dribbble, Trophy, Users, Zap, Briefcase } from 'lucide-react';
 
 const BasketballApp = () => {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Minus, Square } from 'lucide-react';
 
 interface WindowProps {
     title: string;
@@ -41,7 +40,7 @@ const Window: React.FC<WindowProps> = ({
             <div className="win-titlebar">
                 <div className="win-titlebar-title">
                     <div className="w-4 h-4 flex items-center justify-center">
-                        {React.cloneElement(icon as React.ReactElement, { size: 16 })}
+                        {React.cloneElement(icon as React.ReactElement<{size?: number}>, { size: 16 })}
                     </div>
                     <span>{title}</span>
                 </div>

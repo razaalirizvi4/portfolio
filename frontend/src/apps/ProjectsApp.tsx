@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Home, Search, MoreHorizontal, Folder, FileText, Code, Globe, Database, Gamepad2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Home, MoreHorizontal, Folder, FileText, Code, Globe, Database, Gamepad2 } from 'lucide-react';
 
 const ProjectsApp = () => {
     const [selectedProject, setSelectedProject] = useState<string | null>(null);

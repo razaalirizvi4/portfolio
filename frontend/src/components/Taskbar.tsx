@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Search, Wifi, Volume2, Battery } from 'lucide-react';
 
 interface TaskbarProps {
@@ -48,7 +47,7 @@ const Taskbar: React.FC<TaskbarProps> = ({ openApps, activeApp, onAppClick, onSt
                         onClick={() => onAppClick(app.id)}
                         className={`win-taskbar-button ${activeApp === app.id ? 'active' : ''}`}
                     >
-                        {React.cloneElement(app.icon as React.ReactElement, { size: 16, color: 'white' })}
+                        {React.cloneElement(app.icon as React.ReactElement<{size?: number; color?: string}>, { size: 16, color: 'white' })}
                     </button>
                 ))}
             </div>
