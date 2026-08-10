@@ -258,6 +258,23 @@ export const LockIcon: Glyph = ({ size, className }) => (
   </svg>
 );
 
+export const AccessibilityIcon: Glyph = ({ size, className }) => (
+  <svg {...sym(size)} className={className}>
+    <circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none" />
+    <path d="M6 9 h12" />
+    <path d="M12 9 v6" />
+    <path d="M12 15 l-3 5" />
+    <path d="M12 15 l3 5" />
+  </svg>
+);
+
+export const GearIcon: Glyph = ({ size, className }) => (
+  <svg {...sym(size)} className={className}>
+    <circle cx="12" cy="12" r="3" />
+    <path d="M12 3 v2.2 M12 18.8 v2.2 M21 12 h-2.2 M5.2 12 H3 M18.4 5.6 l-1.6 1.6 M7.2 16.8 l-1.6 1.6 M18.4 18.4 l-1.6 -1.6 M7.2 7.2 L5.6 5.6" />
+  </svg>
+);
+
 export const SearchIcon: Glyph = ({ size, className }) => (
   <svg {...sym(size)} className={className}>
     <circle cx="11" cy="11" r="6" />
