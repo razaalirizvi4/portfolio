@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="spideySplit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7E0D0D"/>
+      <stop offset="0.48" stop-color="#B11313"/>
+      <stop offset="0.52" stop-color="#1F3A93"/>
+      <stop offset="1" stop-color="#122457"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#spideySplit)"/>
+  <!-- diagonal seam highlight -->
+  <polygon points="0,1080 1080,0 1160,0 80,1080" fill="#000000" fill-opacity="0.12"/>
+
+  <!-- fine white web radiating from the top-left corner -->
+  <g stroke="#FFFFFF" stroke-opacity="0.28" fill="none" stroke-width="1.6">
+    <!-- radial threads -->
+    <line x1="0" y1="0" x2="1920" y2="120"/>
+    <line x1="0" y1="0" x2="1820" y2="360"/>
+    <line x1="0" y1="0" x2="1640" y2="640"/>
+    <line x1="0" y1="0" x2="1360" y2="900"/>
+    <line x1="0" y1="0" x2="1040" y2="1080"/>
+    <line x1="0" y1="0" x2="620" y2="1080"/>
+    <line x1="0" y1="0" x2="240" y2="1080"/>
+    <line x1="0" y1="0" x2="1080" y2="60"/>
+    <!-- capture spiral arcs -->
+    <path d="M300 0 A300 300 0 0 1 0 300"/>
+    <path d="M560 0 A560 560 0 0 1 0 560"/>
+    <path d="M840 0 A840 840 0 0 1 0 840"/>
+    <path d="M1140 0 A1140 1140 0 0 1 0 1140"/>
+    <path d="M1460 0 A1460 1460 0 0 1 0 1460"/>
+    <path d="M1800 0 A1800 1800 0 0 1 0 1800"/>
+  </g>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="biteBg" cx="0.5" cy="0.4" r="0.85">
+      <stop offset="0" stop-color="#31384A"/>
+      <stop offset="1" stop-color="#1C2130"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#biteBg)"/>
+
+  <!-- cartoon arm: forearm from the left, wrist, then an open hand with fingers -->
+  <g transform="translate(300,470)">
+    <!-- forearm -->
+    <rect x="0" y="0" width="720" height="180" rx="90" fill="#E8B98D" stroke="#C99B6E" stroke-width="6"/>
+    <!-- wrist taper into palm -->
+    <path d="M660 6 Q 760 -6 840 30 L 840 156 Q 760 186 660 174 Z" fill="#E8B98D" stroke="#C99B6E" stroke-width="6"/>
+    <!-- palm -->
+    <rect x="812" y="6" width="150" height="168" rx="46" fill="#E8B98D" stroke="#C99B6E" stroke-width="6"/>
+    <!-- four fingers -->
+    <g fill="#E8B98D" stroke="#C99B6E" stroke-width="6">
+      <rect x="946" y="14"  width="150" height="36" rx="18"/>
+      <rect x="946" y="58"  width="168" height="36" rx="18"/>
+      <rect x="946" y="102" width="156" height="36" rx="18"/>
+      <rect x="946" y="146" width="132" height="36" rx="18"/>
+    </g>
+    <!-- thumb -->
+    <path d="M842 150 Q 890 210 960 196 Q 986 190 980 164 Q 940 150 900 150 Z" fill="#E8B98D" stroke="#C99B6E" stroke-width="6"/>
+    <!-- soft underside shading -->
+    <rect x="14" y="120" width="700" height="52" rx="26" fill="#000000" fill-opacity="0.07"/>
+
+    <!-- the bite: red irritated welt on the forearm, two fang punctures -->
+    <g transform="translate(300,90)">
+      <circle cx="0" cy="0" r="46" fill="#E23B3B" fill-opacity="0.30"/>
+      <circle cx="0" cy="0" r="24" fill="#D22B2B" fill-opacity="0.55"/>
+      <ellipse cx="-15" cy="0" rx="6" ry="13" fill="#6E0C0C"/>
+      <ellipse cx="15"  cy="0" rx="6" ry="13" fill="#6E0C0C"/>
+    </g>
+  </g>
+
+  <!-- caption -->
+  <text x="140" y="900" font-family="Ubuntu, sans-serif" font-size="80" font-weight="700" fill="#FFFFFF" fill-opacity="0.9">day 0</text>
+  <text x="144" y="954" font-family="Ubuntu Mono, monospace" font-size="30" fill="#E95420" fill-opacity="0.85">// it begins</text>
+</svg>

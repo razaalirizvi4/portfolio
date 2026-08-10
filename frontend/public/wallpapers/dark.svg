@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="darkVign" cx="0.5" cy="0.45" r="0.75">
+      <stop offset="0" stop-color="#2B2540"/>
+      <stop offset="0.6" stop-color="#241F31"/>
+      <stop offset="1" stop-color="#1B1726"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#darkVign)"/>
+  <g fill="none" stroke="#E95420" stroke-opacity="0.06" stroke-width="2">
+    <circle cx="960" cy="486" r="120"/>
+    <circle cx="960" cy="486" r="230"/>
+    <circle cx="960" cy="486" r="350"/>
+    <circle cx="960" cy="486" r="480"/>
+    <circle cx="960" cy="486" r="620"/>
+    <circle cx="960" cy="486" r="770"/>
+  </g>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1">
+    <circle cx="960" cy="486" r="175"/>
+    <circle cx="960" cy="486" r="290"/>
+    <circle cx="960" cy="486" r="415"/>
+    <circle cx="960" cy="486" r="550"/>
+    <circle cx="960" cy="486" r="695"/>
+  </g>
+</svg>

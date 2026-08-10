@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#D69A5C"/>
+      <stop offset="1" stop-color="#B9793E"/>
+    </linearGradient>
+    <radialGradient id="courtVign" cx="0.5" cy="0.5" r="0.72">
+      <stop offset="0.55" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0.32"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#wood)"/>
+
+  <!-- hardwood planks -->
+  <g fill="#C68642" fill-opacity="0.35">
+    <rect x="0"    y="0" width="120" height="1080"/>
+    <rect x="240"  y="0" width="120" height="1080"/>
+    <rect x="480"  y="0" width="120" height="1080"/>
+    <rect x="720"  y="0" width="120" height="1080"/>
+    <rect x="960"  y="0" width="120" height="1080"/>
+    <rect x="1200" y="0" width="120" height="1080"/>
+    <rect x="1440" y="0" width="120" height="1080"/>
+    <rect x="1680" y="0" width="120" height="1080"/>
+  </g>
+  <g stroke="#8A5A2B" stroke-opacity="0.25" stroke-width="1">
+    <line x1="120"  y1="0" x2="120"  y2="1080"/>
+    <line x1="360"  y1="0" x2="360"  y2="1080"/>
+    <line x1="600"  y1="0" x2="600"  y2="1080"/>
+    <line x1="840"  y1="0" x2="840"  y2="1080"/>
+    <line x1="1080" y1="0" x2="1080" y2="1080"/>
+    <line x1="1320" y1="0" x2="1320" y2="1080"/>
+    <line x1="1560" y1="0" x2="1560" y2="1080"/>
+    <line x1="1800" y1="0" x2="1800" y2="1080"/>
+  </g>
+
+  <!-- court markings: half-court on the left edge as the center line -->
+  <g fill="none" stroke="#FBF3E6" stroke-width="6" stroke-opacity="0.9">
+    <!-- baseline & sidelines -->
+    <rect x="90" y="90" width="1740" height="900"/>
+    <!-- center line at the right -->
+    <line x1="1830" y1="90" x2="1830" y2="990"/>
+    <!-- center circle (half, opening right) -->
+    <path d="M1830 420 A120 120 0 0 0 1830 660"/>
+    <!-- three-point arc -->
+    <path d="M90 210 L360 210 A540 540 0 0 1 360 870 L90 870"/>
+    <!-- free-throw arc -->
+    <path d="M640 420 A120 120 0 0 1 640 660"/>
+  </g>
+
+  <!-- the paint / key -->
+  <rect x="90" y="420" width="550" height="240" fill="#B11313" fill-opacity="0.82" stroke="#FBF3E6" stroke-width="6"/>
+
+  <!-- hoop + backboard on the baseline -->
+  <g stroke="#FBF3E6" stroke-width="6" fill="none">
+    <line x1="90" y1="500" x2="90" y2="580"/>
+  </g>
+  <circle cx="170" cy="540" r="30" fill="none" stroke="#E9601F" stroke-width="7"/>
+
+  <rect width="1920" height="1080" fill="url(#courtVign)"/>
+</svg>
