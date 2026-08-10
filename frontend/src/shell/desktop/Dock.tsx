@@ -72,7 +72,8 @@ export default function Dock() {
     if (!manifest.singleInstance) {
       items.push({ label: "New Window", onClick: () => openApp(appId) });
     }
-    items.push({ label: isRunning(appId) ? "Unpin from Dash" : "Pin to Dash" });
+    // The dock only shows pinned apps, so the pin action is always "Unpin" (cosmetic).
+    items.push({ label: "Unpin from Dash" });
     if (isRunning(appId)) {
       items.push({ separator: true });
       items.push({

@@ -1,13 +1,13 @@
 import { useState, useCallback, useEffect, useRef, type ReactNode } from "react";
 import { useOs } from "../../os/store";
 
-/** A single row in a context menu. `separator: true` renders a divider. */
-export interface MenuItem {
-  label?: string;
-  onClick?: () => void;
-  danger?: boolean;
-  separator?: boolean;
-}
+/**
+ * A single row in a context menu. Either a divider (`{ separator: true }`)
+ * or an action item whose `label` is required at compile time.
+ */
+export type MenuItem =
+  | { separator: true; label?: undefined; onClick?: undefined; danger?: undefined }
+  | { separator?: false; label: string; onClick?: () => void; danger?: boolean };
 
 interface MenuState {
   x: number;
