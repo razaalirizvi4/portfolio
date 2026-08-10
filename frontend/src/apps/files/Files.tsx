@@ -1,4 +1,4 @@
-import { useState, type FC, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FC, type ReactNode } from "react";
 import type { AppProps } from "../../os/apps";
 import { useOs } from "../../os/store";
 import { vfs } from "../../os/vfsInstance";
@@ -199,6 +199,14 @@ export default function Files({ props }: AppProps) {
   const [, setTick] = useState(0);
   const bump = () => setTick(t => t + 1);
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { rootRef.current?.focus(); }, []);
+
+  // Guards the Enter-then-blur double-commit of an inline rename: Enter commits
+  // and unmounts the input, whose native blur would fire commitRename again
+  // with a stale closure and raise a false "already exists" toast.
+  const renameCommittedRef = useRef(false);
+
   const canBack = histIdx > 0;
   const canForward = histIdx < history.length - 1;
 
@@ -231,10 +239,22 @@ export default function Files({ props }: AppProps) {
     vfs.mkdir(vfs.normalize(name, cwd));
     bump();
     setSelected(name);
+    startRename(name);
+  }
+
+  function startRename(name: string) {
+    renameCommittedRef.current = false;
     setRenaming({ name, value: name });
   }
 
+  function cancelRename() {
+    renameCommittedRef.current = true;
+    setRenaming(null);
+  }
+
   function commitRename(node: VfsNode) {
+    if (renameCommittedRef.current) return;
+    renameCommittedRef.current = true;
     const trimmed = renaming?.value.trim();
     setRenaming(null);
     if (!trimmed || trimmed === node.name) return;
@@ -244,16 +264,14 @@ export default function Files({ props }: AppProps) {
       notify("files", "Rename failed", `An item named "${trimmed}" already exists.`);
       return;
     }
-    if (node.type === "file") {
-      const oldPath = vfs.normalize(node.name, cwd);
-      const newPath = vfs.normalize(trimmed, cwd);
-      const content = vfs.read(oldPath);
-      vfs.write(newPath, content);
-      vfs.rm(oldPath);
-    } else {
-      delete parent.children[node.name];
-      parent.children[trimmed] = { ...node, name: trimmed };
+    if (vfs.isProtected(vfs.normalize(node.name, cwd))) {
+      notify("files", "Permission denied", `${node.name} is load-bearing.`);
+      return;
     }
+    // Re-insert the same node under the new key so kind/url/content survive
+    // for every file type (vfs.write would re-infer kind and drop url).
+    delete parent.children[node.name];
+    parent.children[trimmed] = { ...node, name: trimmed };
     bump();
     setSelected(trimmed);
   }
@@ -274,7 +292,7 @@ export default function Files({ props }: AppProps) {
       items.push({ label: "Open With Text Editor", onClick: () => openApp("texteditor", { path }) });
     }
     items.push({ separator: true });
-    items.push({ label: "Rename", onClick: () => { setSelected(node.name); setRenaming({ name: node.name, value: node.name }); } });
+    items.push({ label: "Rename", onClick: () => { setSelected(node.name); startRename(node.name); } });
     items.push({ label: "Move to Trash", danger: true, onClick: () => moveToTrash(node, path) });
     items.push({ separator: true });
     items.push({ label: "Properties", onClick: () => setPropertiesNode(node) });
@@ -316,6 +334,7 @@ export default function Files({ props }: AppProps) {
 
   return (
     <div
+      ref={rootRef}
       tabIndex={-1}
       onKeyDown={onKeyDown}
       style={{ height: "100%", display: "flex", flexDirection: "column", outline: "none", fontFamily: "var(--font-ui)", color: fg, background: mainBg }}
@@ -454,7 +473,7 @@ export default function Files({ props }: AppProps) {
                         value={renaming.value}
                         onClick={e => e.stopPropagation()}
                         onChange={e => setRenaming({ name: node.name, value: e.target.value })}
-                        onKeyDown={e => { e.stopPropagation(); if (e.key === "Enter") commitRename(node); if (e.key === "Escape") setRenaming(null); }}
+                        onKeyDown={e => { e.stopPropagation(); if (e.key === "Enter") commitRename(node); if (e.key === "Escape") cancelRename(); }}
                         onBlur={() => commitRename(node)}
                         style={{ width: "100%", fontSize: 12, textAlign: "center", borderRadius: 4, border: "1px solid var(--yaru-accent)", outline: "none", background: light ? "#fff" : "#1E1926", color: fg }}
                       />
@@ -497,7 +516,7 @@ export default function Files({ props }: AppProps) {
                             value={renaming.value}
                             onClick={e => e.stopPropagation()}
                             onChange={e => setRenaming({ name: node.name, value: e.target.value })}
-                            onKeyDown={e => { e.stopPropagation(); if (e.key === "Enter") commitRename(node); if (e.key === "Escape") setRenaming(null); }}
+                            onKeyDown={e => { e.stopPropagation(); if (e.key === "Enter") commitRename(node); if (e.key === "Escape") cancelRename(); }}
                             onBlur={() => commitRename(node)}
                             style={{ fontSize: 13, borderRadius: 4, border: "1px solid var(--yaru-accent)", outline: "none", background: light ? "#fff" : "#1E1926", color: fg, flex: 1 }}
                           />
