@@ -17,6 +17,7 @@ interface OsStore {
   closeWindow(id: string): void; focusWindow(id: string): void;
   minimizeWindow(id: string): void; toggleMaximize(id: string): void;
   snapWindow(id: string, side: "left" | "right"): void; restoreWindow(id: string): void;
+  unsnapWindow(id: string): void;
   moveWindow(id: string, x: number, y: number): void; resizeWindow(id: string, rect: Rect): void;
   setWorkspace(n: number): void; moveWindowToWorkspace(id: string, n: number): void;
   notify(appId: string, title: string, body: string): void;
@@ -83,6 +84,7 @@ export const useOs = create<OsStore>((set, get) => ({
     return { ...w, mode: "maximized" as WindowMode, prevRect: w.rect };
   })})),
   snapWindow: (id, side) => set(s => ({ windows: s.windows.map(w => w.id === id ? { ...w, mode: side === "left" ? "snap-left" : "snap-right", prevRect: w.mode === "normal" ? w.rect : w.prevRect } : w) })),
+  unsnapWindow: (id) => set(s => ({ windows: s.windows.map(w => w.id === id ? { ...w, mode: "normal" as WindowMode, rect: w.prevRect ?? w.rect, prevRect: null } : w) })),
   moveWindow: (id, x, y) => set(s => ({ windows: s.windows.map(w => w.id === id ? { ...w, rect: { ...w.rect, x, y } } : w) })),
   resizeWindow: (id, rect) => set(s => ({ windows: s.windows.map(w => w.id === id ? { ...w, rect } : w) })),
   setWorkspace: (n) => set({ activeWorkspace: n }),

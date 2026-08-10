@@ -67,6 +67,17 @@ describe("window manager", () => {
     s().moveWindowToWorkspace(id, 2);
     expect(s().windows[0].workspace).toBe(2);
   });
+  it("unsnapWindow restores prevRect and normal mode", () => {
+    const s = useOs.getState;
+    const id = s().openApp("terminal");
+    const before = s().windows[0].rect;
+    s().snapWindow(id, "left");
+    expect(s().windows[0].mode).toBe("snap-left");
+    s().unsnapWindow(id);
+    expect(s().windows[0].mode).toBe("normal");
+    expect(s().windows[0].rect).toEqual(before);
+    expect(s().windows[0].prevRect).toBeNull();
+  });
 });
 
 describe("notifications & settings", () => {

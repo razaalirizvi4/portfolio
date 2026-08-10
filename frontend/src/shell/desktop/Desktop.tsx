@@ -4,6 +4,8 @@ import { useOs } from "../../os/store";
 import { AppIcon } from "../../ui/icons";
 import TopBar from "./TopBar";
 import Dock from "./Dock";
+import WindowLayer from "./WindowLayer";
+import WindowSwitcher from "./WindowSwitcher";
 import { useContextMenu } from "./ContextMenu";
 
 /* ------------------------------------------------------------------ *
@@ -264,6 +266,8 @@ export default function Desktop() {
       <DesktopIcons />
 
       {/* WindowLayer mounts here (Task 9) */}
+      <WindowLayer />
+      <WindowSwitcher />
 
       {/* Dock + Top bar */}
       <Dock />
