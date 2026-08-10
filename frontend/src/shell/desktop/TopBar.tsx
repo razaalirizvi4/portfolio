@@ -67,6 +67,7 @@ function Panel({ align, children }: { align: "left" | "center" | "right"; childr
 /** GNOME 46 top bar — Activities pill, centred clock, status cluster. */
 export default function TopBar() {
   const setOverview = useOs(s => s.setOverview);
+  const overviewOpen = useOs(s => s.overviewOpen);
   const now = useClock();
   const [open, setOpen] = useState<OpenMenu>(null);
 
@@ -104,7 +105,7 @@ export default function TopBar() {
       }}
     >
       {/* Left — Activities */}
-      {barBtn("Activities", {}, { onClick: () => setOverview(true) })}
+      {barBtn("Activities", {}, { onClick: () => setOverview(!overviewOpen) })}
 
       {/* Center — clock + dropdown */}
       <div ref={clockRef} style={{ position: "absolute", left: "50%", transform: "translateX(-50%)" }}>

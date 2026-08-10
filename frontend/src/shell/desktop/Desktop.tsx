@@ -6,6 +6,7 @@ import TopBar from "./TopBar";
 import Dock from "./Dock";
 import WindowLayer from "./WindowLayer";
 import WindowSwitcher from "./WindowSwitcher";
+import Activities from "./Activities";
 import { useContextMenu } from "./ContextMenu";
 
 /* ------------------------------------------------------------------ *
@@ -280,6 +281,7 @@ export default function Desktop() {
       {balls.length > 0 && <BasketballRain key={rainId} balls={balls} />}
 
       {/* Activities overlay mounts here (Task 10) */}
+      <Activities />
 
       {/* Desktop right-click menu */}
       {contextElement}
