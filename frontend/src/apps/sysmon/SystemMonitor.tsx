@@ -156,6 +156,10 @@ export default function SystemMonitor(_: AppProps) {
       drawChart(memCanvasRef.current, [{ data: memRef.current, color: MEM_COLOR, fill: true }], light);
     }
   };
+  // The mount-only interval below would otherwise capture the first render's
+  // drawAll (stale accent/theme); keep a ref pointing at the latest instance.
+  const drawAllRef = useRef(drawAll);
+  drawAllRef.current = drawAll;
 
   // Seed live stats immediately for newly-opened windows (don't wait for the next tick).
   useEffect(() => {
@@ -200,7 +204,7 @@ export default function SystemMonitor(_: AppProps) {
 
       if (tabRef.current === "resources") {
         if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-        rafRef.current = requestAnimationFrame(drawAll);
+        rafRef.current = requestAnimationFrame(() => drawAllRef.current());
       }
 
       // Live window rows jitter too.
@@ -243,7 +247,7 @@ export default function SystemMonitor(_: AppProps) {
     const resize = () => {
       sizeCanvas(cpuCanvas);
       sizeCanvas(memCanvas);
-      drawAll();
+      drawAllRef.current();
     };
     resize();
     const ro = new ResizeObserver(resize);
@@ -267,7 +271,7 @@ export default function SystemMonitor(_: AppProps) {
         if (name === "spider-daemon") {
           notify("sysmon", "spider-daemon respawned", "With great power comes great responsibility.");
         } else {
-          notify("sysmon", "hoops.service respawned", "ball is life.");
+          notify("sysmon", "hoops.service respawned", "ball is life");
         }
       }, 2000);
       timeoutsRef.current.push(t);
