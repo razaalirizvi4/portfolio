@@ -1,9 +1,9 @@
 // Hand-rolled recursive-descent arithmetic evaluator.
 // Grammar (highest precedence last):
 //   expr   := term (('+' | '-') term)*
-//   term   := factor (('*' | '/' | '%') factor)*
-//   factor := unary ('**' factor)?        // right-associative
-//   unary  := ('+' | '-') unary | atom
+//   term   := unary (('*' | '/' | '%') unary)*
+//   unary  := ('+' | '-') unary | power    // sign binds looser than ** (Python: -2**2 = -4)
+//   power  := atom ('**' unary)?           // right-associative; exponent may be signed (2**-2)
 //   atom   := number | '(' expr ')'
 // No eval/Function — a real tokenizer + parser. Throws on invalid input.
 
@@ -61,10 +61,10 @@ export function evaluate(expr: string): number {
   }
 
   function parseTerm(): number {
-    let left = parseFactor();
+    let left = parseUnary();
     while (peek() && peek().t === "op" && ["*", "/", "%"].includes((peek() as { v: string }).v)) {
       const op = (next() as { v: string }).v;
-      const right = parseFactor();
+      const right = parseUnary();
       if (op === "*") left = left * right;
       else if (op === "/") left = left / right;
       else left = left % right;
@@ -72,16 +72,7 @@ export function evaluate(expr: string): number {
     return left;
   }
 
-  function parseFactor(): number {
-    const base = parseUnary();
-    if (peek() && peek().t === "op" && (peek() as { v: string }).v === "**") {
-      next();
-      const exp = parseFactor(); // right-associative
-      return Math.pow(base, exp);
-    }
-    return base;
-  }
-
+  // Unary sign wraps the whole exponentiation: -2**2 === -(2**2) === -4.
   function parseUnary(): number {
     const p = peek();
     if (p && p.t === "op" && ((p as { v: string }).v === "+" || (p as { v: string }).v === "-")) {
@@ -89,7 +80,17 @@ export function evaluate(expr: string): number {
       const val = parseUnary();
       return op === "-" ? -val : val;
     }
-    return parseAtom();
+    return parsePower();
+  }
+
+  function parsePower(): number {
+    const base = parseAtom();
+    if (peek() && peek().t === "op" && (peek() as { v: string }).v === "**") {
+      next();
+      const exp = parseUnary(); // right-associative; allows signed exponent (2**-2)
+      return Math.pow(base, exp);
+    }
+    return base;
   }
 
   function parseAtom(): number {

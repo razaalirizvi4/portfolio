@@ -25,6 +25,14 @@ describe("arith evaluate", () => {
     expect(evaluate("-3 + 5")).toBe(2);
     expect(evaluate("2 * -4")).toBe(-8);
   });
+  it("unary minus binds looser than ** (Python semantics)", () => {
+    expect(evaluate("-2**2")).toBe(-4);
+    expect(evaluate("2*-3**2")).toBe(-18);
+    expect(evaluate("(-2)**2")).toBe(4);
+  });
+  it("negative exponent is allowed after **", () => {
+    expect(evaluate("2**-2")).toBe(0.25);
+  });
   it("subtraction is left-associative", () => {
     expect(evaluate("10 - 3 - 2")).toBe(5);
   });
