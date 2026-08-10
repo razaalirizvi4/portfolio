@@ -21,6 +21,16 @@ export const easterEggs = {
     { title: "SPIDER-MAN SEEN NEAR FAST-NUCES CAMPUS", body: "Eyewitnesses report web-like structures on the CS building. University claims it is 'just the LAN topology diagram'." },
     { title: "OPINION: node_modules IS THE REAL VILLAIN", body: "At 400MB, it has done more damage to this city's disks than Doc Ock ever did." },
   ],
+  processes: [
+    { name: "gnome-shell", cpu: 2.1, mem: 384 },
+    { name: "spider-daemon", cpu: 3.0, mem: 64 },
+    { name: "hoops.service", cpu: 0.8, mem: 23 },
+    { name: "web-crawler", cpu: 1.2, mem: 88 },
+    { name: "jarvis", cpu: 0.5, mem: 512 },
+    { name: "systemd", cpu: 0.1, mem: 12 },
+    { name: "firefox", cpu: 8.4, mem: 1024 },
+    { name: "code", cpu: 6.2, mem: 768 },
+  ],
   nbaScores: [
     { home: "Lakers", away: "Bulls", homePts: 110, awayPts: 112, note: "MJ with the game-winner. Again. In 2026. Don't ask." },
     { home: "Warriors", away: "Cavs", homePts: 118, awayPts: 121, note: "Blocked. Chased down from behind. You know the one." },
