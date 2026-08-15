@@ -187,6 +187,7 @@ const WindowFrame: FC<Props> = ({ w, vw, vh, onPreview }) => {
       document.body,
     )}
     <motion.div
+      data-window-id={w.id}
       onPointerDown={() => focusWindow(w.id)}
       initial={{ opacity: 0, scale: 0.96 }}
       animate={{ opacity: 1, scale: 1, x: 0, y: 0, transition: { duration: 0.2, ease: "easeOut" } }}

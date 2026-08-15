@@ -18,6 +18,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.24.11",
     "html-to-image": "^1.11.13",
+    "js-dos": "^8.4.1",
     "lucide-react": "^0.562.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
