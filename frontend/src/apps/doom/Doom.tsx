@@ -77,10 +77,13 @@ export default function Doom(_: AppProps) {
   const dosRef = useRef<DosApi | null>(null);
   const [phase, setPhase] = useState<Phase>("checking");
 
+  // Step 1 (mount → unmount): verify assets exist and load the js-dos
+  // script, then flip to "booting" once ready. Does NOT touch the DOM/Dos()
+  // itself — see the effect below for why.
   useEffect(() => {
     let cancelled = false;
 
-    async function boot() {
+    async function prepare() {
       // Verify assets actually exist before touching the DOM/network stack —
       // a 404 here means the fetch script was never run (or the CDN blocked it).
       const [bundleOk, jsOk] = await Promise.all([
@@ -90,31 +93,46 @@ export default function Doom(_: AppProps) {
       if (cancelled) return;
       if (!bundleOk || !jsOk) { setPhase("unavailable"); return; }
 
-      setPhase("booting");
       try {
         await loadJsDos();
-        if (cancelled || !stageRef.current || !window.Dos) {
-          if (!cancelled) setPhase("unavailable");
-          return;
-        }
-        const dos = window.Dos(stageRef.current, {
-          url: DOOM_BUNDLE,
-          pathPrefix: EMULATORS_PREFIX,
-        });
-        dosRef.current = dos;
-        if (!cancelled) setPhase("playing");
+        if (cancelled) return;
+        if (!window.Dos) { setPhase("unavailable"); return; }
+        setPhase("booting");
       } catch {
         if (!cancelled) setPhase("unavailable");
       }
     }
-    void boot();
+    void prepare();
 
     return () => {
       cancelled = true;
+      // Stop whatever emulator instance this mount created (if any),
+      // regardless of which effect started it.
       dosRef.current?.stop().catch(() => {});
       dosRef.current = null;
     };
   }, []);
+
+  // Step 2: boot the emulator once the "booting" phase has actually
+  // committed and painted. A `useEffect` (unlike the async continuation
+  // above) is guaranteed to run after React has committed the DOM for this
+  // render, so `stageRef.current` is populated here — even when
+  // `loadJsDos()` resolves via an already-cached `Promise.resolve()` (e.g.
+  // reopening DOOM after a prior successful open), which would otherwise
+  // let the Dos() call race ahead of the "booting" render's commit.
+  useEffect(() => {
+    if (phase !== "booting") return;
+    if (!stageRef.current || !window.Dos) {
+      setPhase("unavailable");
+      return;
+    }
+    const dos = window.Dos(stageRef.current, {
+      url: DOOM_BUNDLE,
+      pathPrefix: EMULATORS_PREFIX,
+    });
+    dosRef.current = dos;
+    setPhase("playing");
+  }, [phase]);
 
   const showStage = phase === "booting" || phase === "playing";
 

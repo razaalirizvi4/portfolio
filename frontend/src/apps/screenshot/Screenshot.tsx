@@ -46,15 +46,11 @@ export default function Screenshot({ windowId }: AppProps) {
     try {
       if (!root) return;
       windowEl?.setAttribute("data-screenshot-hide", "true");
-      const prevVisibility = windowEl?.style.visibility;
       if (windowEl) windowEl.style.visibility = "hidden";
 
       const dataUrl = await toPng(root, {
         filter: (node) => !node.closest?.("[data-screenshot-hide]"),
       });
-
-      if (windowEl) windowEl.style.visibility = prevVisibility ?? "";
-      windowEl?.removeAttribute("data-screenshot-hide");
 
       setFlash(true);
       setTimeout(() => setFlash(false), 120);
@@ -70,7 +66,7 @@ export default function Screenshot({ windowId }: AppProps) {
 
       // Narrative coherence only — the real PNG went to the browser's
       // actual Downloads folder via the <a download> click above.
-      vfs.write(`~/Downloads/${filename}.txt`, "(you downloaded the real one)");
+      vfs.write(`~/Downloads/screenshot-${ts}.png.txt`, "(you downloaded the real one)");
       notify("screenshot", "Screenshot captured", "Saved to Downloads");
     } catch (err) {
       console.error("Screenshot capture failed:", err);
