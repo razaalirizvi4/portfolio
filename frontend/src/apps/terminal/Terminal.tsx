@@ -150,7 +150,7 @@ export default function Terminal({ windowId }: AppProps) {
     if (first === "§CLEAR") { setBuffer([]); return; }
     if (first === "§SL") { playSL(); return; }
     if (first === "§BALL") { playBall(); return; }
-    if (first === "§THWIP") { append(["*thwip*"]); return; }
+    if (first === "§THWIP") { useOs.getState().fireEffect("thwip"); append(["*thwip*"]); return; }
     if (first === "§HISTORY") {
       append(history.map((h, i) => `${String(i + 1).padStart(4)}  ${h}`));
       return;

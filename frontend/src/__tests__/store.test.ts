@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { useOs } from "../os/store";
 
 beforeEach(() => useOs.getState().__reset());
@@ -95,5 +95,31 @@ describe("notifications & settings", () => {
     s().setSettings({ theme: "light" });
     expect(s().settings.theme).toBe("light");
     expect(s().settings.wallpaper).toBe("/wallpapers/noble.svg");
+  });
+});
+
+describe("fireEffect", () => {
+  beforeEach(() => vi.useFakeTimers());
+  afterEach(() => vi.useRealTimers());
+
+  it("sets effect then auto-clears after 1200ms", () => {
+    const s = useOs.getState;
+    s().fireEffect("thwip");
+    expect(s().effect).toBe("thwip");
+    vi.advanceTimersByTime(1199);
+    expect(s().effect).toBe("thwip");
+    vi.advanceTimersByTime(1);
+    expect(s().effect).toBeNull();
+  });
+
+  it("a second fireEffect while one is active resets the timer instead of racing it", () => {
+    const s = useOs.getState;
+    s().fireEffect("thwip");
+    vi.advanceTimersByTime(1000);
+    s().fireEffect("thwip"); // re-fire near the end of the first window
+    vi.advanceTimersByTime(1000);
+    expect(s().effect).toBe("thwip"); // still active — timer was reset, not doubled up
+    vi.advanceTimersByTime(200);
+    expect(s().effect).toBeNull();
   });
 });

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "../../os/apps";
 import { useOs } from "../../os/store";
 import { evaluate } from "../../os/arith";
+import { swish } from "../../os/sound";
 
 /* ------------------------------------------------------------------ *
  * GNOME Calculator — basic mode.
@@ -91,7 +92,9 @@ export default function Calculator(_: AppProps) {
     }
     if (!Number.isFinite(v)) return;
     const resultStr = fmt(v);
-    const tagged = v === 23 || v === 24 ? `${resultStr} 🐐` : resultStr;
+    const isGoat = v === 23 || v === 24;
+    const tagged = isGoat ? `${resultStr} 🐐` : resultStr;
+    if (isGoat) swish();
     setHistory(h => [{ expr, result: tagged }, ...h].slice(0, 3));
     setExpr(resultStr);
     justEvaluatedRef.current = true;

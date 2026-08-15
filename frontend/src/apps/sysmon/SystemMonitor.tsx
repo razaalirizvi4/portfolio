@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AppProps } from "../../os/apps";
 import { useOs } from "../../os/store";
 import { easterEggs } from "../../content/easterEggs";
+import { swish } from "../../os/sound";
 import { useContextMenu, type MenuItem } from "../../shell/desktop/ContextMenu";
 
 /* ------------------------------------------------------------------ *
@@ -268,6 +269,7 @@ export default function SystemMonitor(_: AppProps) {
       setStaticProcs(prev => prev.map(p => (p.name === name ? { ...p, hidden: true } : p)));
       const t = setTimeout(() => {
         setStaticProcs(prev => prev.map(p => (p.name === name ? { ...p, hidden: false, cpu: name === "spider-daemon" ? 3.0 : p.cpu } : p)));
+        swish();
         if (name === "spider-daemon") {
           notify("sysmon", "spider-daemon respawned", "With great power comes great responsibility.");
         } else {

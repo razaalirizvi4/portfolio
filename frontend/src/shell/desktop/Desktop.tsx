@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState, type FC } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useOs } from "../../os/store";
+import { swish } from "../../os/sound";
 import { AppIcon } from "../../ui/icons";
 import TopBar from "./TopBar";
 import Dock from "./Dock";
 import WindowLayer from "./WindowLayer";
 import WindowSwitcher from "./WindowSwitcher";
 import Activities from "./Activities";
+import Thwip from "./effects/Thwip";
 import { useContextMenu } from "./ContextMenu";
 
 /* ------------------------------------------------------------------ *
@@ -221,7 +223,10 @@ export default function Desktop() {
           setRainId(id => id + 1);
           setBalls(makeBalls());
           if (rainTimer.current !== null) clearTimeout(rainTimer.current);
-          rainTimer.current = window.setTimeout(() => setBalls([]), 8000);
+          rainTimer.current = window.setTimeout(() => {
+            setBalls([]);
+            swish();
+          }, 8000);
         }
       } else {
         konamiIdx.current = e.key === KONAMI[0] ? 1 : 0;
@@ -279,6 +284,9 @@ export default function Desktop() {
 
       {/* Konami rain */}
       {balls.length > 0 && <BasketballRain key={rainId} balls={balls} />}
+
+      {/* thwip web-line + grab-shake effect (Task 18) */}
+      <Thwip />
 
       {/* Activities overlay mounts here (Task 10) */}
       <Activities />

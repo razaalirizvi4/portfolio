@@ -11,6 +11,8 @@ interface OsStore {
   drawer: Notification[];
   settings: OsSettings;
   overviewOpen: boolean;
+  effect: string | null;
+  fireEffect(name: string): void;
   powerOn(): void; bootTo(s: SessionState): void; login(): void;
   lock(): void; unlock(): void; shutdown(): void; restart(): void;
   openApp(appId: string, props?: Record<string, unknown>): string;
@@ -35,13 +37,26 @@ const initial = {
   drawer: [] as Notification[],
   settings: { wallpaper: "/wallpapers/noble.svg", theme: "dark", accent: "#E95420" } as OsSettings,
   overviewOpen: false,
+  effect: null as string | null,
 };
 
 let seq = 0;
 const nid = () => `w${++seq}`;
 
+// Held outside the store so overlapping fireEffect() calls clear cleanly
+// instead of racing two competing timeouts.
+let effectTimer: ReturnType<typeof setTimeout> | null = null;
+
 export const useOs = create<OsStore>((set, get) => ({
   ...initial,
+  fireEffect: (name) => {
+    if (effectTimer !== null) clearTimeout(effectTimer);
+    set({ effect: name });
+    effectTimer = setTimeout(() => {
+      effectTimer = null;
+      set({ effect: null });
+    }, 1200);
+  },
   powerOn: () => set({ session: "grub" }),
   bootTo: (s) => set({ session: s }),
   login: () => set({ session: "desktop" }),
@@ -103,5 +118,8 @@ export const useOs = create<OsStore>((set, get) => ({
   clearDrawer: () => set({ drawer: [] }),
   setSettings: (p) => set(s => ({ settings: { ...s.settings, ...p } })),
   setOverview: (open) => set({ overviewOpen: open }),
-  __reset: () => set({ ...initial }),
+  __reset: () => {
+    if (effectTimer !== null) { clearTimeout(effectTimer); effectTimer = null; }
+    set({ ...initial });
+  },
 }));
