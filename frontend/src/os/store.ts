@@ -56,6 +56,11 @@ export const useOs = create<OsStore>((set, get) => ({
     if (m.singleInstance) {
       const existing = st.windows.find(w => w.appId === appId);
       if (existing) {
+        // Refresh props so a re-open with new args (e.g. Files "Open in VS Code"
+        // with a different path) is observable by the already-mounted app.
+        if (props !== undefined) {
+          set({ windows: st.windows.map(w => w.id === existing.id ? { ...w, props } : w) });
+        }
         get().restoreWindow(existing.id);
         get().focusWindow(existing.id);
         return existing.id;
